@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Pro - Employee Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <!-- Auth Section (Login/Register) -->
+    <div id="auth-container" class="auth-container">
+        <!-- Login Form -->
+        <div id="login-section" class="auth-section active">
+            <div class="login-box">
+                <div class="login-header">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <h2>Company Login</h2>
+                    <p>Access your account</p>
+                </div>
+                <form id="loginForm">
+                    <div class="input-wrap">
+                        <i class="fas fa-user-tie input-icon-abs"></i>
+                        <input type="email" id="loginEmail" placeholder="admin@workplace.com" required>
+                    </div>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon-abs"></i>
+                        <input type="password" id="loginPassword" placeholder="work123" required>
+                    </div>
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <div class="demo-info">
+                        <strong>Demo:</strong> admin@workplace.com / work123
+                    </div>
+                    <div class="auth-switch">
+                        <p>Don't have an account? <button type="button" id="showRegister">Register here</button></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-section" class="auth-section">
+            <div class="register-box">
+                <div class="login-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>Create Account</h2>
+                    <p>Join Workplace Pro</p>
+                </div>
+                <form id="registerForm">
+                    <div class="input-wrap">
+                        <i class="fas fa-user input-icon-abs"></i>
+                        <input type="text" id="regFullName" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-wrap">
+                        <i class="fas fa-envelope input-icon-abs"></i>
+                        <input type="email" id="regEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon-abs"></i>
+                        <input type="password" id="regPassword" placeholder="Password (min 6 chars)" required>
+                    </div>
+                    <div class="input-wrap">
+                        <i class="fas fa-user-tag input-icon-abs"></i>
+                        <select id="regRole" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                    <div class="auth-switch">
+                        <p>Already have an account? <button type="button" id="showLogin">Login here</button></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App - FIXED STRUCTURE -->
+    <div class="wrapper">
+        <div class="main-content">
+            <div id="crud-app" class="crud-app hidden">
+                <header class="app-header">
+                    <div class="header-left">
+                        <i class="fas fa-users-cog"></i>
+                        <h1>Employee Management</h1>
+                        <span class="user-info" id="userInfo"></span>
+                    </div>
+                    <div class="header-right">
+                        <span class="employee-count">Employees: <span id="employeeCount">0</span></span>
+                        <button class="logout-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </header>
+
+                <main class="crud-container">
+                    <form id="employeeForm" class="crud-form">
+                        <input type="hidden" id="editId">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Employee ID <span class="required">*</span></label>
+                                <input type="text" id="idNumber" placeholder="EMP001" required maxlength="20">
+                            </div>
+                            <div class="input-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" id="name" placeholder="John Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Contact Number <span class="required">*</span></label>
+                                <input type="tel" id="contact" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Email (Optional)</label>
+                                <input type="email" id="emailEmployee" placeholder="john@company.com">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="submitBtn" class="btn-primary">
+                                <i class="fas fa-user-plus"></i> Add Employee
+                            </button>
+                            <button type="button" id="clearBtn" class="btn-secondary">
+                                <i class="fas fa-eraser"></i> Clear Form
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="stats-row">
+                        <!-- NEW: separate search boxes -->
+                        <div class="search-container-multi">
+                            <div class="search-box">
+                                <label for="searchById"><i class="fas fa-hashtag"></i> ID</label>
+                                <input type="text" id="searchById" placeholder="Search by ID">
+                            </div>
+                            <div class="search-box">
+                                <label for="searchByName"><i class="fas fa-user"></i> Name</label>
+                                <input type="text" id="searchByName" placeholder="Search by Name">
+                            </div>
+                            <div class="search-box">
+                                <label for="searchByContact"><i class="fas fa-phone"></i> Contact</label>
+                                <input type="text" id="searchByContact" placeholder="Search by Contact">
+                            </div>
+                            <div class="search-box">
+                                <label for="searchByEmail"><i class="fas fa-envelope"></i> Email</label>
+                                <input type="text" id="searchByEmail" placeholder="Search by Email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FIXED Table Container Structure -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">
+                                <i class="fas fa-table"></i>
+                                Employee Records
+                            </h3>
+                            <div class="table-stats">
+                                <span class="record-count">
+                                    <i class="fas fa-users"></i>
+                                    <span id="liveEmployeeCount">0</span> Records
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="table-wrapper">
+                            <table class="employee-table" id="employeeTable">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag"></i> ID</th>
+                                        <th><i class="fas fa-user-tie"></i> Employee Name</th>
+                                        <th><i class="fas fa-phone"></i> Contact</th>
+                                        <th><i class="fas fa-envelope"></i> Email</th>
+                                        <th><i class="fas fa-cogs"></i> Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employeeTableBody"></tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Empty State -->
+                        <div id="emptyState" class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-users-slash fa-3x"></i>
+                            </div>
+                            <h3>No employees found</h3>
+                            <p>Add your first employee using the form above to get started</p>
+                            <button class="empty-action-btn" id="scrollToFormBtn">
+                                <i class="fas fa-plus"></i> Add First Employee
+                            </button>
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div id="loadingState" class="loading-state" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <p>Loading employee records...</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div class="success-footer">Login successful! Welcome back!</div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Workplace Pro. <strong>Web Development Minor Project</strong> by <strong>Syed Ali Murtuza</strong></p>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" title="Facebook" class="social-link" rel="noopener">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" title="Instagram" class="social-link" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com" target="_blank" title="YouTube" class="social-link" rel="noopener">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
